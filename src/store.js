@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { addPackage, getPackage, updatePackage } from '../src/api/package'
+import { addPackage, getPackage, updatePackage, getPackageByStatus } from '../src/api/package'
 
 Vue.use(Vuex)
 
@@ -29,11 +29,17 @@ export default new Vuex.Store({
       dispatch('initPackage')
     },
     async modifyPackage({dispatch}, payload) {
-      await updatePackage(payload.data.id, payload.data.item)
+      await updatePackageByTime(payload.billno, payload.apptime)
       dispatch('initPackage')
     },
-    changeCategory({commit}, payload) {
-      commit('changeCategory', payload)
+    async updatePackageStatus({dispatch}, payload) {
+      await updatePackage(payload.id, payload)
+      dispatch('initPackage')
+    },
+    async getPackageByStatus({commit}, payload) {
+      const result = await getPackageByStatus(payload);
+      console.log(result)
+      commit('initPackage', result.data)
     }
   }
 })

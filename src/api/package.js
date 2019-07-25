@@ -29,3 +29,11 @@ export const updatePackage = (id, packaging) => {
     data: packaging
   })
 }
+
+export const updatePackageByTime = (billNumber, time) => {
+  return request({
+    url: `/${billNumber}`,
+    method: 'put',
+    data: time
+  })
+}

@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <a-radio-group v-model="size">
-      <a-radio-button value="all">All</a-radio-button>
-      <a-radio-button value="haved">已预约</a-radio-button>
-      <a-radio-button value="got">已取件</a-radio-button>
-      <a-radio-button value="haven">未取件</a-radio-button>
+      <a-radio-button value="all" @click="fetchData()">All</a-radio-button>
+      <a-radio-button value="haved" @click="getAppointPackage()">已预约</a-radio-button>
+      <a-radio-button value="got" @click="getHavedPackage()">已取件</a-radio-button>
+      <a-radio-button value="haven" @click="getHavenPackage()">未取件</a-radio-button>
     </a-radio-group>
     <a-button class="editable-add-btn" @click="handleAdd">Add</a-button>
     <a-table bordered :dataSource="dataSource" :columns="columns">
       <template slot="operation" slot-scope="text, record">
         <a-popconfirm
           v-if="dataSource.length"
-          title="Sure to delete?"
-          @confirm="() => onDelete(record.key)"
+          title="Sure?"
+          @confirm="() => onUpdate(record)"
         >
           <a href="javascript:;">确认收货</a>
         </a-popconfirm>
@@ -78,9 +78,9 @@ export default {
         this.dataSource = dataSource;
       }
     },
-    onDelete(key) {
-      const dataSource = [...this.dataSource];
-      this.dataSource = dataSource.filter(item => item.key !== key);
+    onUpdate(record) {
+      record.status = "已取件"
+      this.$store.dispatch("updatePackageStatus", record)
     },
     handleAdd() {
       this.$router.push("/addOrder")
@@ -88,11 +88,17 @@ export default {
     handlePickUp(){
       this.$router.push("/pickUp")
     },
-    handleChange(value) {
-      console.log(`Selected: ${value}`);
-    },
     fetchData(){
       this.$store.dispatch("initPackage")
+    },
+    getHavenPackage(){
+      this.$store.dispatch("getPackageByStatus", "未取件")
+    },
+    getAppointPackage(){
+      this.$store.dispatch("getPackageByStatus", "已预约")
+    },
+    getHavedPackage(){
+      this.$store.dispatch("getPackageByStatus", "已取件")
     }
   }
 };
