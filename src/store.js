@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { addPackage, getPackage, updatePackage, getPackageByStatus } from '../src/api/package'
+import { addPackage, getPackage, updatePackage, getPackageByStatus } from './http/order'
 
 Vue.use(Vuex)
 
