@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../src/views/Home.vue'
-import CreateOrder from '../src/views/CreateOrder.vue'
-import PickUp from '../src/views/PickUp.vue'
+import BossHome from './views/boss/Home.vue'
 
 Vue.use(Router)
 
@@ -11,17 +10,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/admin',
+      name: 'boss',
+      component: BossHome
+    },
+    {
       path: '/',
       name: 'home',
       component: Home
-    },
-    {
-      path: '/addOrder',
-      component: CreateOrder
-    },
-    {
-      path: '/pickUp',
-      component: PickUp
     }
   ]
 })

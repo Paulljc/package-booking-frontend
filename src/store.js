@@ -1,45 +1,37 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { addPackage, getPackage, updatePackage, getPackageByStatus } from './http/order'
+import OrderApi from './http/order.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    packageList:[],
-    status:'haven'
+    orders: []
   },
   mutations: {
-    initPackage(state, payload) {
-      console.log(payload)
-      state.packageList = payload
-      console.log(state.packageList)
-    },
-    changeCategory(state, payload){
-      state.status = payload
+    setOrders (state, orders) {
+      state.orders = orders
     }
   },
   actions: {
-    async initPackage({commit}) {
-      const result = await getPackage();
-      commit('initPackage', result.data)
+    fetchAllOrders: async ({ commit }) => {
+      const orders = await OrderApi.fetchOrders()
+      commit('setOrders', orders)
     },
-    async createPackage({dispatch}, payload) {
-      await addPackage(payload)
-      dispatch('initPackage')
+    updateOrderStatus: async ({ dispatch }, { id, status }) => {
+      await OrderApi.updateOrderStatus(id, status)
+      dispatch('fetchAllOrders')
     },
-    async modifyPackage({dispatch}, payload) {
-      await updatePackageByTime(payload.billno, payload.apptime)
-      dispatch('initPackage')
+    updateOrderTimeAndStatusByOrderNo: async (store, { appointmentTime, orderNo, status }) => {
+      await OrderApi.updateOrderTimeAndStatusByOrderNo(orderNo, appointmentTime, status)
     },
-    async updatePackageStatus({dispatch}, payload) {
-      await updatePackage(payload.id, payload)
-      dispatch('initPackage')
+    findByStatus: async ({ commit }, status) => {
+      const orders = await OrderApi.fetchOrdersByStatus(status)
+      commit('setOrders', orders)
     },
-    async getPackageByStatus({commit}, payload) {
-      const result = await getPackageByStatus(payload);
-      console.log(result)
-      commit('initPackage', result.data)
+    createOrder: async ({ dispatch }, order) => {
+      await OrderApi.createOrder(order)
+      dispatch('fetchAllOrders')
     }
   }
 })
