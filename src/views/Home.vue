@@ -25,35 +25,29 @@
 <script>
 export default {
   name: "home",
+  created(){
+    this.fetchData()
+  },
   components: {},
   data() {
     return {
       size: "default",
-      dataSource: [
-        {
-          key: "0",
-          orderNumber: "1121212121",
-          userName: "tom",
-          phone: "123123123",
-          status: "未取件",
-          time: "time"
-        }
-      ],
+      // dataSource: [],
       count: 2,
       columns: [
         {
           title: "运单号",
-          dataIndex: "orderNumber",
+          dataIndex: "billno",
           width: "30%",
           scopedSlots: { customRender: "name" }
         },
         {
           title: "收件人",
-          dataIndex: "userName"
+          dataIndex: "receiver"
         },
         {
           title: "电话",
-          dataIndex: "phone"
+          dataIndex: "phonenum"
         },
         {
           title: "状态",
@@ -61,7 +55,7 @@ export default {
         },
         {
           title: "预约时间",
-          dataIndex: "time"
+          dataIndex: "apptime"
         },
         {
           title: "操作",
@@ -70,6 +64,11 @@ export default {
         }
       ]
     };
+  },
+  computed:{
+    dataSource(){
+      return this.$store.state.packageList;
+    }
   },
   methods: {
     onCellChange(key, dataIndex, value) {
@@ -93,8 +92,8 @@ export default {
     handleChange(value) {
       console.log(`Selected: ${value}`);
     },
-    popupScroll() {
-      console.log("popupScroll");
+    fetchData(){
+      this.$store.dispatch("initPackage")
     }
   }
 };
