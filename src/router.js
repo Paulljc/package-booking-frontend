@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../src/views/Home.vue'
 import CreateOrder from '../src/views/CreateOrder.vue'
+import PickUp from '../src/views/PickUp.vue'
 
 Vue.use(Router)
 
@@ -20,7 +21,7 @@ export default new Router({
     },
     {
       path: '/pickUp',
-      component: CreateOrder
+      component: PickUp
     }
   ]
 })
