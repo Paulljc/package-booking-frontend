@@ -14,7 +14,7 @@
     >
       <a-input
         v-decorator="[
-          'note',
+          'billno',
           {rules: [{ required: true, message: 'Please input your note!' }]}
         ]"
       />
@@ -26,7 +26,7 @@
     >
       <a-input
         v-decorator="[
-          'note',
+          'receiver',
           {rules: [{ required: true, message: 'Please input your note!' }]}
         ]"
       />
@@ -38,7 +38,7 @@
     >
       <a-input
         v-decorator="[
-          'note',
+          'phonenum',
           {rules: [{ required: true, message: 'Please input your note!' }]}
         ]"
       />
@@ -50,7 +50,7 @@
     >
       <a-input
         v-decorator="[
-          'note',
+          'weight',
           {rules: [{ required: true, message: 'Please input your note!' }]}
         ]"
       />
@@ -79,15 +79,11 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
+          this.$store.dispatch("createPackage", values)
+          this.$router.push("/")
         }
       });
-    },
-    handleSelectChange (value) {
-      console.log(value);
-      this.form.setFieldsValue({
-        note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-      });
-    },
+    }
   }
 }
 </script>

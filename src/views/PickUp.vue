@@ -14,7 +14,7 @@
     >
       <a-input
         v-decorator="[
-          'note',
+          'billno',
           {rules: [{ required: true, message: 'Please input your note!' }]}
         ]"
       />
@@ -24,12 +24,11 @@
       :label-col="{ span: 5 }"
       :wrapper-col="{ span: 12 }"
     >
-      <a-input
-        v-decorator="[
-          'note',
-          {rules: [{ required: true, message: 'Please input your note!' }]}
-        ]"
-      />
+      <a-date-picker
+        v-decorator="['apptime', config]"
+        format="YYYY-MM-DD HH:mm:ss"
+        :showTime="{ defaultValue: new Date() }"
+    />
     </a-form-item>
     <a-button
         type="primary"
@@ -47,6 +46,9 @@ export default {
     return {
       formLayout: 'horizontal',
       form: this.$form.createForm(this),
+      config: {
+        rules: [{ type: 'object', required: true, message: 'Please select time!' }],
+      }
     };
   },
   methods: {
@@ -55,15 +57,10 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values);
+          // this.$store.dispatch("modifyPackage", values)
         }
       });
-    },
-    handleSelectChange (value) {
-      console.log(value);
-      this.form.setFieldsValue({
-        note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-      });
-    },
+    }
   }
 }
 </script>

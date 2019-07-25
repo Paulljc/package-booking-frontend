@@ -16,7 +16,7 @@ export default new Vuex.Store({
       console.log(state.packageList)
     },
     changeCategory(state, payload){
-      state.status = payload.data
+      state.status = payload
     }
   },
   actions: {

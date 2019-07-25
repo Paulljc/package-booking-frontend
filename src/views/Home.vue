@@ -32,7 +32,6 @@ export default {
   data() {
     return {
       size: "default",
-      // dataSource: [],
       count: 2,
       columns: [
         {
