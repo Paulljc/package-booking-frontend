@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
 
-const baseUrl = '/apis/orders'
+const baseUrl = 'http://localhost:9527/packages'
 
 const instance = axios.create({})
 
